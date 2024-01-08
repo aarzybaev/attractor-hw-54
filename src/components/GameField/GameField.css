@@ -1,0 +1,14 @@
+.GameField {
+  width: 30%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  flex-wrap: wrap;
+  border: 1px solid #ccc;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+}
