@@ -43,7 +43,7 @@ const GameField = () => {
     if (!win) {
       if (!clicked) {
         changeItem(index);
-        setCount((prevState) => prevState = prevState + 1);
+        setCount((prevState) :number => prevState + 1);
       }
 
       if (hasItem) {
