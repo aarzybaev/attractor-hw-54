@@ -47,7 +47,7 @@ const GameField = () => {
       }
 
       if (hasItem) {
-        console.log('You win!');
+        alert('You win!');
         setWin(() => true);
       }
     }
