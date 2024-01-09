@@ -3,6 +3,7 @@ import Cell from '../Cell/Cell.tsx';
 import Counter from '../Counter/Counter.tsx';
 import Reset from '../Reset/Reset.tsx';
 import './GameField.css';
+import Message from '../Message/Message.tsx';
 
 
 interface Items {
@@ -11,9 +12,7 @@ interface Items {
 }
 
 const GameField = () => {
-
   const randomInteger = (min: number, max: number) => {
-    // случайное число от min до (max+1)
     const rand: number = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
   };
@@ -28,9 +27,11 @@ const GameField = () => {
     items[rndIndex] = {hasItem: true, clicked: false};
     return items;
   };
+
   const [items, setItems] = useState<Items[]>(createItems());
   const [count, setCount] = useState(0);
   const [win, setWin] = useState(false);
+
   const changeItem = (index: number) => {
     const copyItems = [...items];
     const newObj = {...copyItems[index]};
@@ -39,20 +40,26 @@ const GameField = () => {
     setItems(copyItems);
   };
 
+  const increaseCounter = () => {
+    setCount((prevState): number => prevState + 1);
+  };
+
   const checkCell = (index: number, hasItem: boolean, clicked: boolean) => {
     if (!win) {
+
       if (!clicked) {
         changeItem(index);
-        setCount((prevState): number => prevState + 1);
+        increaseCounter();
+
+        if (hasItem) {
+          setWin(() => true);
+        }
       }
 
-      if (hasItem) {
-        alert('You found!');
-        setWin(() => true);
-      }
+
     }
-
   };
+
 
   const restartGame = () => {
     setWin(() => false);
@@ -73,7 +80,9 @@ const GameField = () => {
                 cellStyle={'Cell clicked'}
                 onClick={() => {
                   checkCell(index, item.hasItem, item.clicked);
-                }}>{item.hasItem ? 'O' : ''}
+                }}
+              >
+                {item.hasItem ? 'O' : ''}
               </Cell>
             );
           } else {
@@ -83,7 +92,9 @@ const GameField = () => {
                 cellStyle={'Cell'}
                 onClick={() => {
                   checkCell(index, item.hasItem, item.clicked);
-                }}>{item.hasItem ? 'O' : ''}
+                }}
+              >
+                {item.hasItem ? 'O' : ''}
               </Cell>
             );
           }
@@ -91,6 +102,7 @@ const GameField = () => {
         })
       }
       <div className="info">
+        <Message message={win? 'You found!': 'Good luck!'} isWin={win}/>
         <Counter count={count}/>
         <Reset reset={restartGame}/>
       </div>
